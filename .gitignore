@@ -1,2 +1,5 @@
 coverage.txt
 vendor
+
+# Agents
+.claude/settings.local.json
