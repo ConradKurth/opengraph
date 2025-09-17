@@ -25,4 +25,8 @@ type Intent struct {
 	Strict bool
 	// TrustedTags specify which tags to be respected.
 	TrustedTags []string
+
+	// Headers to be sent with the HTTP request.
+	// If nil, default browser-like headers will be used.
+	Headers map[string]string
 }

@@ -98,6 +98,20 @@ func (og *OpenGraph) Fetch() error {
 
 	req = req.WithContext(og.Intent.Context)
 
+	// Apply headers
+	headers := og.Intent.Headers
+	if headers == nil {
+		// Use default browser-like headers to avoid bot detection
+		headers = map[string]string{
+			"User-Agent":      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+			"Accept":          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+			"Accept-Language": "en-US,en;q=0.9",
+		}
+	}
+	for key, value := range headers {
+		req.Header.Set(key, value)
+	}
+
 	res, err := og.Intent.HTTPClient.Do(req)
 	if err != nil {
 		return err
