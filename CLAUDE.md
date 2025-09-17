@@ -13,9 +13,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Tidy modules**: `go mod tidy`
 
 ### CLI Tool
-- **Build CLI**: `go build ./ogp`
-- **Install CLI**: `go get github.com/otiai10/opengraph/ogp`
+- **Build CLI**: `go build -o ogp ./cmd/ogp`
+- **Install CLI**: `go install github.com/otiai10/opengraph/v2/cmd/ogp@latest`
 - **Run CLI**: `ogp -A [URL]` or `ogp --help`
+- **Run with custom headers**: `ogp -H "User-Agent: MyBot/1.0" -H "Accept-Language: en-US" [URL]`
 
 ## Architecture
 
@@ -25,7 +26,7 @@ This is a Go library for parsing Open Graph Protocol (OGP) metadata from web pag
 
 1. **OpenGraph struct** (opengraph.go:28-54): Central data structure holding all OGP metadata including basic fields (title, type, image, URL), optional fields (audio, description, video), and additional metadata (favicon). Uses an Intent field to control parsing behavior.
 
-2. **Intent struct** (intent.go): Configures parsing behavior including HTTP client, context, strict mode, and trusted HTML tags. Controls whether non-standard tags are parsed.
+2. **Intent struct** (intent.go): Configures parsing behavior including HTTP client, context, strict mode, trusted HTML tags, and custom HTTP headers. Controls whether non-standard tags are parsed and allows customization of request headers to bypass bot protection.
 
 3. **Tag Parsing System**:
    - **MetaTag** (meta.go): Parses `<meta>` tags and extracts OGP properties
@@ -45,6 +46,8 @@ This is a Go library for parsing Open Graph Protocol (OGP) metadata from web pag
 - **Flexible Parsing Modes**:
   - **Strict mode**: Only trusts `<meta>` tags with OGP properties
   - **Non-strict mode**: Falls back to standard HTML tags (`<title>`, `<meta name="description">`, favicon links)
+
+- **Bot Protection Bypass**: Default browser-like headers (User-Agent, Accept, Accept-Language) are automatically added to HTTP requests to avoid bot detection. Custom headers can be specified via Intent.Headers for sites with specific requirements.
 
 ### Error Handling
 

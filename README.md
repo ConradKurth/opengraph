@@ -30,9 +30,14 @@ func main() {
 # You can try CLI as a working example
 
 ```sh
-% go get github.com/otiai10/opengraph/ogp
+% go install github.com/otiai10/opengraph/v2/cmd/ogp@latest
 % ogp --help
 % ogp -A otiai10.com
+```
+
+You can also use custom headers (useful for sites with bot protection):
+```sh
+% ogp -H "User-Agent: Mozilla/5.0" -H "Accept-Language: en-US" https://example.com
 ```
 
 Just for fun 😉
@@ -46,6 +51,10 @@ intent := opengraph.Intent{
 	HTTPClient:  client,
 	Strict:      true,
 	TrustedTags: []string{"meta", "title"},
+	Headers:     map[string]string{
+		"User-Agent": "MyCustomBot/1.0",
+		"Accept-Language": "en-US,en;q=0.9",
+	},
 }
 ogp, err := opengraph.Fetch("https://ogp.me", intent)
 ```

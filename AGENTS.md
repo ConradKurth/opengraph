@@ -1,10 +1,10 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-Core library lives in the root Go package (`opengraph.go`, `intent.go`, `structured.go`) and exposes Open Graph parsing helpers. The CLI sample lives at `ogp/main.go` and compiles to the `ogp` binary; keep it minimal and rely on exported APIs. HTML fixtures for parser tests reside under `test/html`, and vendorised dependencies are locked in `vendor/` for reproducible builds.
+Core library lives in the root Go package (`opengraph.go`, `intent.go`, `structured.go`) and exposes Open Graph parsing helpers. The CLI sample lives at `cmd/ogp/main.go` and compiles to the `ogp` binary; keep it minimal and rely on exported APIs. HTML fixtures for parser tests reside under `test/html`, and vendorised dependencies are locked in `vendor/` for reproducible builds.
 
 ## Build, Test, and Development Commands
-Run unit and integration tests before sending patches: `go test ./...`. Use `go test -run TestFetch` to target a scenario when iterating. Build the CLI with `go build ./ogp` or install it locally via `go install ./ogp`. Keep module metadata tidy with `go mod tidy` and format sources with `go fmt ./...` before pushing.
+Run unit and integration tests before sending patches: `go test ./...`. Use `go test -run TestFetch` to target a scenario when iterating. Build the CLI with `go build -o ogp ./cmd/ogp` or install it locally via `go install ./cmd/ogp`. Keep module metadata tidy with `go mod tidy` and format sources with `go fmt ./...` before pushing.
 
 ## Coding Style & Naming Conventions
 Follow standard Go style: tabs for indentation, camel-case identifiers, and exported symbols documented with `// Name ...` comments. Keep files small and cohesive; group parser helpers by concern (e.g. tag handling in `tags.go`). Run `gofmt` or `goimports` on touched files; CI will reject unformatted code. Prefer clear intent-driven names such as `parseVideo` over abbreviations.
